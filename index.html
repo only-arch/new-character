@@ -12,30 +12,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    :root {
-      --bg: #050608;
-      --panel: #101114;
-      --panel-2: #17181c;
-      --line: rgba(255,255,255,0.12);
-      --text: #ffffff;
-      --subtext: rgba(255,255,255,0.78);
-      --muted: rgba(255,255,255,0.45);
+    :root{
+      --page-bg:#050608;
+      --panel-bg:#101114;
+      --input-bg:#1a1b1f;
+      --text:#ffffff;
+      --muted:rgba(255,255,255,0.72);
+      --line:rgba(255,255,255,0.18);
+      --card-width: 1200px;
+      --card-height: 675px; /* 16:9 */
     }
 
     html, body {
       margin: 0;
       padding: 0;
-      background: #050608;
+      background: var(--page-bg);
       color: var(--text);
       font-family: 'Noto Sans KR', sans-serif;
     }
 
     body {
-      padding: 24px;
+      padding: 20px;
     }
 
     .wrap {
@@ -46,7 +45,7 @@
       gap: 18px;
     }
 
-    .notice-box,
+    .notice,
     .panel {
       background: linear-gradient(180deg, rgba(18,19,24,0.96), rgba(10,11,14,0.98));
       border: 1px solid rgba(255,255,255,0.06);
@@ -54,7 +53,7 @@
       box-shadow: 0 16px 40px rgba(0,0,0,0.22);
     }
 
-    .notice-box {
+    .notice {
       padding: 18px 20px;
       font-size: 14px;
       line-height: 1.8;
@@ -89,7 +88,7 @@
       border: 0;
       outline: 0;
       border-radius: 10px;
-      padding: 14px 14px;
+      padding: 14px;
       background: linear-gradient(90deg, rgba(26,27,31,1), rgba(20,21,25,1));
       color: #fff;
       font-size: 15px;
@@ -134,18 +133,37 @@
       color: #fff;
     }
 
-    .preview-shell {
-      padding: 0;
+    /* 미리보기 영역: 기본은 가로형 유지 */
+    .preview-area {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 6px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .preview-area::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .preview-area::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+    }
+
+    .preview-frame {
+      width: var(--card-width);
+      min-width: var(--card-width);
+      margin: 0 auto;
     }
 
     .card {
       position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      min-height: 560px;
+      width: var(--card-width);
+      height: var(--card-height);
       overflow: hidden;
-      background: #020305;
       border-radius: 16px;
+      background: #020305;
       isolation: isolate;
     }
 
@@ -188,12 +206,11 @@
       z-index: 3;
       width: 100%;
       height: 100%;
-      min-height: 560px;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 56px 32px;
+      padding: 58px 56px;
     }
 
     .inner {
@@ -203,7 +220,7 @@
     .soon {
       margin: 0 0 28px;
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(15px, 1.3vw, 24px);
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: 0.34em;
       color: rgba(255,255,255,0.72);
@@ -213,7 +230,7 @@
     .sub-title {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(44px, 4.4vw, 72px);
+      font-size: 72px;
       font-weight: 800;
       line-height: 1.02;
       letter-spacing: -0.04em;
@@ -223,7 +240,7 @@
     .main-title {
       margin: 34px 0 28px;
       font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
-      font-size: clamp(86px, 9vw, 144px);
+      font-size: 138px;
       font-weight: 900;
       line-height: 0.92;
       letter-spacing: -0.07em;
@@ -231,12 +248,13 @@
       text-shadow:
         0 6px 24px rgba(0,0,0,0.30),
         0 0 26px rgba(255,255,255,0.04);
+      word-break: keep-all;
     }
 
     .divider {
-      width: min(640px, 100%);
+      width: min(760px, 100%);
       height: 1px;
-      margin: 0 auto 32px;
+      margin: 0 auto 30px;
       background: linear-gradient(
         to right,
         rgba(255,255,255,0),
@@ -250,17 +268,18 @@
     .trait {
       margin: 0;
       font-family: 'Noto Sans KR', sans-serif;
-      font-size: clamp(24px, 2.2vw, 40px);
+      font-size: 30px;
       font-weight: 800;
       line-height: 1.35;
       color: #ffffff;
+      word-break: keep-all;
     }
 
     .desc {
-      margin: 28px auto 0;
-      max-width: 700px;
+      margin: 24px auto 0;
+      max-width: 760px;
       font-family: 'Noto Sans KR', sans-serif;
-      font-size: clamp(17px, 1.5vw, 28px);
+      font-size: 21px;
       font-weight: 500;
       line-height: 1.8;
       color: rgba(255,255,255,0.72);
@@ -268,6 +287,7 @@
       transform: skewX(-10deg);
       transform-origin: center;
       white-space: pre-line;
+      word-break: keep-all;
     }
 
     .empty-guide {
@@ -288,34 +308,36 @@
       display: none;
     }
 
+    /* 모바일에서는 세로형으로 바꾸지 않고, 가로형을 유지한 채 스크롤 */
+    @media (max-width: 1024px) {
+      .wrap {
+        width: 100%;
+      }
+
+      .preview-frame {
+        margin: 0;
+      }
+    }
+
     @media (max-width: 720px) {
       body {
         padding: 14px;
       }
 
-      .card,
-      .content {
-        min-height: 100vw;
-      }
-
-      .content {
-        padding: 34px 18px;
+      .notice {
+        font-size: 13px;
       }
 
       .button-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
       }
-
-      .desc {
-        transform: skewX(-8deg);
-      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="notice-box">
+    <div class="notice">
       ※ 케이브덕/로판AI의 체리망고님의 신캐스포창처럼 이미지 저장이 가능한 사이트입니다.<br>
       배포 관련해서는 체리망고님의 허락이 있었으며, 아크 유저캐만 사용하는 것을 허용합니다.<br>
       타장르 캐릭터 및 기존 아크 캐릭터로 사용하는 것이 확인될 경우 즉시 삭제됩니다.
@@ -356,30 +378,35 @@
       </div>
     </div>
 
-    <div class="preview-shell">
-      <section class="card" id="captureTarget">
-        <div class="bg-image" id="bgImage"></div>
-        <div class="overlay-1"></div>
-        <div class="overlay-2"></div>
+    <div class="preview-area">
+      <div class="preview-frame">
+        <section class="card" id="captureTarget">
+          <div class="bg-image" id="bgImage"></div>
+          <div class="overlay-1"></div>
+          <div class="overlay-2"></div>
 
-        <div class="content">
-          <div class="inner">
-            <p class="soon">COMING SOON</p>
-            <h2 class="sub-title">new character</h2>
-            <h1 class="main-title" id="previewName">Rêve</h1>
-            <div class="divider"></div>
-            <p class="trait" id="previewTrait">B급 풀 속성 센티넬</p>
-            <p class="desc" id="previewDesc">캐치프레이즈를 작성하는데
+          <div class="content">
+            <div class="inner">
+              <p class="soon">COMING SOON</p>
+              <h2 class="sub-title">new character</h2>
+              <h1 class="main-title" id="previewName">Rêve</h1>
+              <div class="divider"></div>
+              <p class="trait" id="previewTrait">B급 풀 속성 센티넬</p>
+              <p class="desc" id="previewDesc">캐치프레이즈를 작성하는데
 2줄이 가장 예뻐요</p>
+            </div>
           </div>
-        </div>
 
-        <div class="empty-guide">이미지를 업로드하면 배경에 바로 적용됩니다</div>
-      </section>
+          <div class="empty-guide">이미지를 업로드하면 배경에 바로 적용됩니다</div>
+        </section>
+      </div>
     </div>
   </div>
 
   <script>
+    const CARD_WIDTH = 1200;
+    const CARD_HEIGHT = 675;
+
     const imageInput = document.getElementById('imageInput');
     const nameInput = document.getElementById('nameInput');
     const traitInput = document.getElementById('traitInput');
@@ -430,7 +457,7 @@
       updatePreview();
     });
 
-    saveBtn.addEventListener('click', async () => {
+    async function saveImage() {
       const fileName = (fileNameInput.value.trim() || 'reve-신캐스포창') + '.png';
 
       try {
@@ -441,7 +468,13 @@
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#020305',
-          scale: 2
+          scale: 2,
+          width: CARD_WIDTH,
+          height: CARD_HEIGHT,
+          windowWidth: CARD_WIDTH,
+          windowHeight: CARD_HEIGHT,
+          scrollX: 0,
+          scrollY: 0
         });
 
         const link = document.createElement('a');
@@ -455,7 +488,9 @@
         saveBtn.disabled = false;
         saveBtn.textContent = '이미지 저장';
       }
-    });
+    }
+
+    saveBtn.addEventListener('click', saveImage);
 
     updatePreview();
   </script>
