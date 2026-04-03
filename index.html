@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Game Teaser Character Maker</title>
+  <title>신캐 스포 생성기</title>
 
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #050608;
+      --panel: #101114;
+      --panel-2: #17181c;
+      --line: rgba(255,255,255,0.12);
+      --text: #ffffff;
+      --subtext: rgba(255,255,255,0.78);
+      --muted: rgba(255,255,255,0.45);
+    }
+
     html, body {
       margin: 0;
       padding: 0;
-      background:
-        radial-gradient(circle at top, #08101f 0%, #03070f 48%, #02040a 100%);
-      color: #fff;
-      font-family: 'Inter', Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: #050608;
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
     }
 
     body {
@@ -30,41 +39,31 @@
     }
 
     .wrap {
-      width: min(1120px, 100%);
+      width: min(980px, 100%);
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
 
+    .notice-box,
+    .panel {
+      background: linear-gradient(180deg, rgba(18,19,24,0.96), rgba(10,11,14,0.98));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.22);
+    }
+
     .notice-box {
-      background: linear-gradient(180deg, rgba(14,16,24,0.96), rgba(10,12,18,0.98));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
       padding: 18px 20px;
-      box-shadow:
-        0 18px 50px rgba(0,0,0,0.22),
-        inset 0 1px 0 rgba(255,255,255,0.03);
+      font-size: 14px;
       line-height: 1.8;
       color: rgba(255,255,255,0.82);
-      font-size: 14px;
       word-break: keep-all;
     }
 
-    .notice-box strong {
-      color: #ffffff;
-      font-weight: 800;
-    }
-
     .panel {
-      background: linear-gradient(180deg, rgba(10,12,18,0.94), rgba(8,10,16,0.98));
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 18px;
       padding: 18px;
-      box-shadow:
-        0 18px 50px rgba(0,0,0,0.28),
-        inset 0 1px 0 rgba(255,255,255,0.03);
-      backdrop-filter: blur(8px);
     }
 
     .controls {
@@ -79,28 +78,26 @@
 
     .field label {
       font-size: 13px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.84);
-      letter-spacing: -0.01em;
+      font-weight: 800;
+      color: rgba(255,255,255,0.92);
     }
 
     .field input[type="text"],
     .field input[type="file"],
     .field textarea {
       width: 100%;
-      border: 1px solid rgba(255,255,255,0.05);
-      outline: none;
-      border-radius: 12px;
-      background: linear-gradient(180deg, rgba(28,30,36,0.95), rgba(20,22,28,0.98));
+      border: 0;
+      outline: 0;
+      border-radius: 10px;
+      padding: 14px 14px;
+      background: linear-gradient(90deg, rgba(26,27,31,1), rgba(20,21,25,1));
       color: #fff;
-      padding: 14px 15px;
-      font-size: 14px;
-      font-family: inherit;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+      font-size: 15px;
+      font-family: 'Noto Sans KR', sans-serif;
     }
 
     .field textarea {
-      min-height: 100px;
+      min-height: 110px;
       resize: vertical;
       line-height: 1.7;
     }
@@ -114,279 +111,204 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 2px;
     }
 
     button {
-      border: none;
-      outline: none;
-      border-radius: 12px;
-      padding: 13px 18px;
+      border: 0;
+      outline: 0;
+      border-radius: 10px;
+      padding: 12px 18px;
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
-      transition: transform 0.16s ease, opacity 0.16s ease, box-shadow 0.16s ease;
-      font-family: inherit;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
+      font-family: 'Noto Sans KR', sans-serif;
     }
 
     .save-btn {
-      background: linear-gradient(180deg, #ffffff, #dfe7ff);
-      color: #10131a;
-      box-shadow: 0 8px 24px rgba(180, 198, 255, 0.18);
+      background: #ffffff;
+      color: #111;
     }
 
     .reset-btn {
-      background: linear-gradient(180deg, #202531, #171b25);
+      background: #23252c;
       color: #fff;
-      border: 1px solid rgba(255,255,255,0.06);
     }
 
     .preview-shell {
       padding: 0;
-      overflow: hidden;
-      background: transparent;
-      border: none;
-      box-shadow: none;
     }
 
     .card {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      min-height: 630px;
+      min-height: 560px;
       overflow: hidden;
-      background: #05070d;
+      background: #020305;
+      border-radius: 16px;
       isolation: isolate;
-      border-radius: 0;
     }
 
     .bg-image {
       position: absolute;
       inset: 0;
       z-index: 0;
-      background-color: #05070d;
+      background-color: #020305;
       background-image: none;
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
-      transform: scale(1.03);
-      filter: brightness(0.58) saturate(0.86) contrast(1.02);
+      transform: scale(1.02);
+      filter: brightness(0.42) saturate(0.84) contrast(1.02);
     }
 
-    .overlay-base {
+    .overlay-1 {
       position: absolute;
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(to bottom, rgba(2,4,8,0.30), rgba(2,4,8,0.50)),
-        radial-gradient(circle at center, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.14) 34%, rgba(0,0,0,0.46) 70%, rgba(0,0,0,0.64) 100%);
+        linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.54)),
+        radial-gradient(circle at center, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.18) 38%, rgba(0,0,0,0.62) 100%);
       pointer-events: none;
     }
 
-    .overlay-vignette {
+    .overlay-2 {
       position: absolute;
       inset: 0;
       z-index: 2;
       background:
-        linear-gradient(to right, rgba(0,0,0,0.22), rgba(0,0,0,0.06) 24%, rgba(0,0,0,0.06) 76%, rgba(0,0,0,0.22)),
-        linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.03) 28%, rgba(0,0,0,0.08) 72%, rgba(0,0,0,0.42));
+        radial-gradient(circle at 50% 28%, rgba(140,165,255,0.05), rgba(255,255,255,0) 26%),
+        radial-gradient(circle at 50% 72%, rgba(255,255,255,0.02), rgba(255,255,255,0) 30%);
       pointer-events: none;
-    }
-
-    .overlay-glow {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      background:
-        radial-gradient(circle at 50% 42%, rgba(155,185,255,0.08), rgba(255,255,255,0.00) 34%),
-        radial-gradient(circle at 50% 60%, rgba(255,255,255,0.03), rgba(255,255,255,0.00) 42%);
       mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .overlay-mist {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
-      opacity: 0.56;
-      background:
-        radial-gradient(ellipse at 50% 78%, rgba(255,255,255,0.07), rgba(255,255,255,0) 48%),
-        radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.025), rgba(255,255,255,0) 40%);
-      filter: blur(16px);
     }
 
     .content {
       position: relative;
-      z-index: 5;
+      z-index: 3;
       width: 100%;
       height: 100%;
-      min-height: 630px;
+      min-height: 560px;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 62px 42px;
+      padding: 56px 32px;
     }
 
     .inner {
-      width: min(900px, 100%);
+      width: min(860px, 100%);
     }
 
     .soon {
-      margin: 0 0 26px;
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(16px, 1.4vw, 26px);
+      margin: 0 0 28px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(15px, 1.3vw, 24px);
       font-weight: 700;
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
+      letter-spacing: 0.34em;
       color: rgba(255,255,255,0.72);
-      text-shadow:
-        0 1px 0 rgba(255,255,255,0.04),
-        0 3px 14px rgba(0,0,0,0.38);
+      text-transform: uppercase;
     }
 
     .sub-title {
-      margin: 0 0 10px;
+      margin: 0;
       font-family: 'Montserrat', sans-serif;
-      font-size: clamp(38px, 4vw, 66px);
-      line-height: 1.02;
+      font-size: clamp(44px, 4.4vw, 72px);
       font-weight: 800;
-      letter-spacing: -0.035em;
-      color: rgba(255,255,255,0.93);
-      text-shadow:
-        0 4px 20px rgba(0,0,0,0.32),
-        0 0 18px rgba(255,255,255,0.03);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      color: #ffffff;
     }
 
     .main-title {
-      margin: 26px 0 20px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(72px, 8.2vw, 122px);
-      line-height: 0.92;
+      margin: 34px 0 28px;
+      font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+      font-size: clamp(86px, 9vw, 144px);
       font-weight: 900;
-      letter-spacing: -0.065em;
+      line-height: 0.92;
+      letter-spacing: -0.07em;
       color: #ffffff;
-      transform: scaleX(0.96);
-      transform-origin: center;
       text-shadow:
-        0 6px 28px rgba(0,0,0,0.42),
-        0 0 24px rgba(255,255,255,0.06),
-        0 0 52px rgba(170, 196, 255, 0.05);
-      word-break: keep-all;
+        0 6px 24px rgba(0,0,0,0.30),
+        0 0 26px rgba(255,255,255,0.04);
     }
 
     .divider {
-      width: min(710px, 100%);
+      width: min(640px, 100%);
       height: 1px;
-      margin: 24px auto 28px;
+      margin: 0 auto 32px;
       background: linear-gradient(
         to right,
         rgba(255,255,255,0),
-        rgba(255,255,255,0.16),
-        rgba(255,255,255,0.34),
+        rgba(255,255,255,0.12),
+        rgba(255,255,255,0.28),
         rgba(255,255,255,0.12),
         rgba(255,255,255,0)
       );
-      box-shadow: 0 0 18px rgba(255,255,255,0.05);
     }
 
     .trait {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(18px, 2vw, 31px);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: clamp(24px, 2.2vw, 40px);
       font-weight: 800;
-      letter-spacing: -0.02em;
-      color: rgba(255,255,255,0.92);
-      text-shadow:
-        0 3px 14px rgba(0,0,0,0.30),
-        0 0 12px rgba(255,255,255,0.03);
-      word-break: keep-all;
+      line-height: 1.35;
+      color: #ffffff;
     }
 
     .desc {
-      margin: 30px auto 0;
-      max-width: 920px;
-      font-size: clamp(15px, 1.4vw, 23px);
-      line-height: 1.72;
+      margin: 28px auto 0;
+      max-width: 700px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: clamp(17px, 1.5vw, 28px);
       font-weight: 500;
+      line-height: 1.8;
       color: rgba(255,255,255,0.72);
-      text-shadow: 0 2px 12px rgba(0,0,0,0.28);
-      word-break: keep-all;
-      white-space: normal;
       font-style: italic;
-      transform: skewX(-8deg);
+      transform: skewX(-10deg);
       transform-origin: center;
+      white-space: pre-line;
     }
 
     .empty-guide {
       position: absolute;
       right: 18px;
       bottom: 18px;
-      z-index: 6;
-      background: rgba(6,10,18,0.46);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.68);
+      z-index: 4;
       padding: 8px 12px;
       border-radius: 999px;
+      background: rgba(0,0,0,0.38);
+      border: 1px solid rgba(255,255,255,0.08);
       font-size: 12px;
-      backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.64);
       pointer-events: none;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
     }
 
     .card.has-image .empty-guide {
       display: none;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 720px) {
       body {
         padding: 14px;
       }
 
       .card,
       .content {
-        min-height: 520px;
+        min-height: 100vw;
       }
 
       .content {
-        padding: 42px 22px;
+        padding: 34px 18px;
       }
 
-      .divider {
-        margin: 20px auto 22px;
-      }
-
-      .desc {
-        margin-top: 22px;
-      }
-    }
-
-    @media (max-width: 640px) {
       .button-row {
         display: grid;
         grid-template-columns: 1fr 1fr;
       }
 
-      .card {
-        min-height: 100vw;
-      }
-
-      .content {
-        min-height: 100vw;
-      }
-
-      .main-title {
-        transform: none;
-      }
-
-      .notice-box {
-        font-size: 13px;
-        padding: 16px;
+      .desc {
+        transform: skewX(-8deg);
       }
     }
   </style>
@@ -394,7 +316,7 @@
 <body>
   <div class="wrap">
     <div class="notice-box">
-      <strong>※ 케이브덕/로판AI의 체리망고님의 신캐스포창처럼 이미지 저장이 가능한 사이트입니다.</strong><br>
+      ※ 케이브덕/로판AI의 체리망고님의 신캐스포창처럼 이미지 저장이 가능한 사이트입니다.<br>
       배포 관련해서는 체리망고님의 허락이 있었으며, 아크 유저캐만 사용하는 것을 허용합니다.<br>
       타장르 캐릭터 및 기존 아크 캐릭터로 사용하는 것이 확인될 경우 즉시 삭제됩니다.
     </div>
@@ -407,27 +329,28 @@
         </div>
 
         <div class="field">
-          <label for="fileNameInput">저장 파일명</label>
-          <input type="text" id="fileNameInput" placeholder="예: reve-신캐스포창">
-        </div>
-
-        <div class="field">
           <label for="nameInput">캐릭터 이름</label>
-          <input type="text" id="nameInput" placeholder="예: Rêve">
+          <input type="text" id="nameInput" value="Rêve" placeholder="예: Rêve">
         </div>
 
         <div class="field">
           <label for="traitInput">속성 설명</label>
-          <input type="text" id="traitInput" placeholder="예: B급 풀 속성 센티넬">
+          <input type="text" id="traitInput" value="B급 풀 속성 센티넬" placeholder="예: B급 풀 속성 센티넬">
         </div>
 
         <div class="field">
-          <label for="descInput">캐치프레이즈</label>
-          <textarea id="descInput" placeholder="캐치프레이즈를 작성해주세요."></textarea>
+          <label for="descInput">캐치프레이즈를 작성해주세요.</label>
+          <textarea id="descInput" placeholder="캐치프레이즈를 작성해주세요.">캐치프레이즈를 작성하는데
+2줄이 가장 예뻐요</textarea>
+        </div>
+
+        <div class="field">
+          <label for="fileNameInput">파일명 (예: reve-신캐스포창)</label>
+          <input type="text" id="fileNameInput" value="reve-신캐스포창" placeholder="예: reve-신캐스포창">
         </div>
 
         <div class="button-row">
-          <button class="save-btn" id="saveBtn">PNG 저장</button>
+          <button class="save-btn" id="saveBtn" type="button">이미지 저장</button>
           <button class="reset-btn" id="resetBtn" type="button">입력 초기화</button>
         </div>
       </div>
@@ -436,10 +359,8 @@
     <div class="preview-shell">
       <section class="card" id="captureTarget">
         <div class="bg-image" id="bgImage"></div>
-        <div class="overlay-base"></div>
-        <div class="overlay-vignette"></div>
-        <div class="overlay-glow"></div>
-        <div class="overlay-mist"></div>
+        <div class="overlay-1"></div>
+        <div class="overlay-2"></div>
 
         <div class="content">
           <div class="inner">
@@ -447,8 +368,9 @@
             <h2 class="sub-title">new character</h2>
             <h1 class="main-title" id="previewName">Rêve</h1>
             <div class="divider"></div>
-            <p class="trait" id="previewTrait">A급 바람 속센티넬</p>
-            <p class="desc" id="previewDesc">캐치프레이즈를 작성하는데<br>2줄이 가장 예뻐요</p>
+            <p class="trait" id="previewTrait">B급 풀 속성 센티넬</p>
+            <p class="desc" id="previewDesc">캐치프레이즈를 작성하는데
+2줄이 가장 예뻐요</p>
           </div>
         </div>
 
@@ -459,10 +381,10 @@
 
   <script>
     const imageInput = document.getElementById('imageInput');
-    const fileNameInput = document.getElementById('fileNameInput');
     const nameInput = document.getElementById('nameInput');
     const traitInput = document.getElementById('traitInput');
     const descInput = document.getElementById('descInput');
+    const fileNameInput = document.getElementById('fileNameInput');
 
     const previewName = document.getElementById('previewName');
     const previewTrait = document.getElementById('previewTrait');
@@ -473,35 +395,15 @@
     const saveBtn = document.getElementById('saveBtn');
     const resetBtn = document.getElementById('resetBtn');
 
-    function escapeHTML(str) {
-      return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    function updatePreview() {
+      previewName.textContent = nameInput.value || 'Rêve';
+      previewTrait.textContent = traitInput.value || 'B급 풀 속성 센티넬';
+      previewDesc.textContent = descInput.value || '캐치프레이즈를 작성하는데\n2줄이 가장 예뻐요';
     }
 
-    function updateName() {
-      previewName.textContent = nameInput.value.trim() || 'Rêve';
-    }
-
-    function updateTrait() {
-      previewTrait.textContent = traitInput.value.trim() || 'A급 바람 속센티넬';
-    }
-
-    function updateDesc() {
-      const value = descInput.value.trim();
-      if (!value) {
-        previewDesc.innerHTML = '캐치프레이즈를 작성하는데<br>2줄이 가장 예뻐요';
-        return;
-      }
-      previewDesc.innerHTML = escapeHTML(value).replace(/\n/g, '<br>');
-    }
-
-    nameInput.addEventListener('input', updateName);
-    traitInput.addEventListener('input', updateTrait);
-    descInput.addEventListener('input', updateDesc);
+    nameInput.addEventListener('input', updatePreview);
+    traitInput.addEventListener('input', updatePreview);
+    descInput.addEventListener('input', updatePreview);
 
     imageInput.addEventListener('change', (e) => {
       const file = e.target.files && e.target.files[0];
@@ -517,30 +419,28 @@
 
     resetBtn.addEventListener('click', () => {
       imageInput.value = '';
-      fileNameInput.value = '';
-      nameInput.value = '';
-      traitInput.value = '';
-      descInput.value = '';
+      nameInput.value = 'Rêve';
+      traitInput.value = 'B급 풀 속성 센티넬';
+      descInput.value = '캐치프레이즈를 작성하는데\n2줄이 가장 예뻐요';
+      fileNameInput.value = 'reve-신캐스포창';
 
       bgImage.style.backgroundImage = 'none';
       captureTarget.classList.remove('has-image');
 
-      previewName.textContent = 'Rêve';
-      previewTrait.textContent = 'A급 바람 속센티넬';
-      previewDesc.innerHTML = '캐치프레이즈를 작성하는데<br>2줄이 가장 예뻐요';
+      updatePreview();
     });
 
     saveBtn.addEventListener('click', async () => {
       const fileName = (fileNameInput.value.trim() || 'reve-신캐스포창') + '.png';
 
       try {
-        saveBtn.textContent = '저장 중...';
         saveBtn.disabled = true;
+        saveBtn.textContent = '저장 중...';
 
         const canvas = await html2canvas(captureTarget, {
           useCORS: true,
           allowTaint: true,
-          backgroundColor: '#05070d',
+          backgroundColor: '#020305',
           scale: 2
         });
 
@@ -548,14 +448,16 @@
         link.download = fileName;
         link.href = canvas.toDataURL('image/png');
         link.click();
-      } catch (error) {
-        alert('저장 중 오류가 발생했습니다.');
-        console.error(error);
+      } catch (e) {
+        alert('이미지 저장 중 오류가 발생했습니다.');
+        console.error(e);
       } finally {
-        saveBtn.textContent = 'PNG 저장';
         saveBtn.disabled = false;
+        saveBtn.textContent = '이미지 저장';
       }
     });
+
+    updatePreview();
   </script>
 </body>
 </html>
